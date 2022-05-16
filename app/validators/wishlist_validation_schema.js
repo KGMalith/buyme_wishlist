@@ -5,7 +5,7 @@ const schema = {
         product_id: Joi.string().trim().required(),
     }),
     remove_item: Joi.object({
-        product_id: Joi.string().trim().required(),
+        wishlist_id: Joi.string().trim().required(),
     }),
 };
 

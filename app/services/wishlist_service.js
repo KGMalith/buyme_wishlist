@@ -13,7 +13,6 @@ module.exports.addItem = async (requestBody,requestUser) => {
     session.startTransaction();
 
     try {
-
         //check requested item already added
         let item = await Wishlist.find({ 'product.product_id': requestBody.product_id, user_id: requestUser.userID }).session(session);
 
@@ -33,7 +32,7 @@ module.exports.addItem = async (requestBody,requestUser) => {
         let productObj = null;
         let product_respond =  await GetProductDetailsEvent(payload);
         if (product_respond.status == 200){
-            productObj = product_respond.data
+            productObj = product_respond.data.data
         }else{
             throw new BadRequestException('Error occured in product module. Please try again later'); 
         }
@@ -49,7 +48,7 @@ module.exports.addItem = async (requestBody,requestUser) => {
             'product.size': productObj.size,
             'product.color': productObj.color,
             'product.price': productObj.price,
-        }).session(session);
+        });
 
 
         //commit the transaction 
@@ -72,14 +71,14 @@ module.exports.removeItem = async (requestBody, requestUser) => {
     try {
         
         //check requested item already exists
-        let item = await Wishlist.findOne({ 'product.product_id': requestBody.product_id, user_id: requestUser.userID });
+        let item = await Wishlist.findById(requestBody.wishlist_id);
 
         if (!item) {
             throw new BadRequestException('Selected item not in wishlist');
         }
 
         //delete item
-        await Wishlist.deleteOne({ 'product.product_id': requestBody.product_id, user_id: requestUser.userID });
+        await Wishlist.findByIdAndDelete(requestBody.wishlist_id);
        
 
         return {
