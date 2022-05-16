@@ -6,18 +6,13 @@ let WishlistSchema = new Schema({
         required: true
     },
     product: {
-        product_id:{
-            type: String,
-        },
-        product_name:{
-            type: String,
-        },
-        product_image:{
-            type: String,
-        },
-        price:{
-            type: Number,
-        }
+        _id: { type: String },
+        title: { type: String },
+        desc: { type: String },
+        img: { type: String },
+        size: { type: String },
+        color: { type: String },
+        price: { type: Number },
     },
 });
 

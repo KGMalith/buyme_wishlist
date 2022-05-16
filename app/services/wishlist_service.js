@@ -24,7 +24,10 @@ module.exports.addItem = async (requestBody,requestUser) => {
         //get product details
         let payload = {
             event: 'GET_PRODUCT',
-            product_id: requestBody.product_id
+            data:{
+                product_id: requestBody.product_id
+            }
+            
         };
 
         let productObj = null;
@@ -38,8 +41,13 @@ module.exports.addItem = async (requestBody,requestUser) => {
         //create wishlist item
         await Wishlist.create({
             user_id: requestUser.userID,
-            'product.product_id': productObj.product_name,
-            'product.price': productObj.product_name,
+            'product._id': productObj._id,
+            'product.title': productObj.title,
+            'product.desc': productObj.desc,
+            'product.img': productObj.img,
+            'product.size': productObj.size,
+            'product.color': productObj.color,
+            'product.price': productObj.price,
         }).session(session);
 
 
