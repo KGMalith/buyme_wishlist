@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: buyme-wishlist-k8s
+spec:
+  selector:
+    matchLabels:
+      app: buyme-wishlist-k8s
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: buyme-wishlist-k8s
+    spec:
+      containers:
+        - name: buyme-wishlist-k8s
+          image: buymemain/wishlist_image:latest
+          ports:
+            - containerPort: 4002
+    
