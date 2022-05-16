@@ -27,14 +27,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: docker/build-push-action@v3
-    - name: Build and push
-      with:
-        push: true
-        tags: buymemain/wishlist_image:latest
-
+      -
+        name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: buymemain/wishlist_image:latest
   
-  Deploy:
+  deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
