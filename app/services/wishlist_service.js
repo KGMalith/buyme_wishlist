@@ -45,6 +45,7 @@ module.exports.addItem = async (requestBody,requestUser) => {
             'product.title': productObj.title,
             'product.desc': productObj.desc,
             'product.img': productObj.img,
+            'product.categories': productObj.categories,
             'product.size': productObj.size,
             'product.color': productObj.color,
             'product.price': productObj.price,
