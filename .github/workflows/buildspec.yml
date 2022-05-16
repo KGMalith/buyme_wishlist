@@ -27,11 +27,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build -t buymemain/wishlist_image .
-    - name: Push Docker image
-      run: docker push buymemain/wishlist_image
+    - uses: docker/build-push-action@v3
+    - name: Build and push
+      with:
+        push: true
+        tags: buymemain/wishlist_image:latest
+
   
   Deploy:
     needs: build
