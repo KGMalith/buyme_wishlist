@@ -1,0 +1,50 @@
+name: Buyme Wishlist CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: ${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}
+  GKE_CLUSTER: buyme-wishlist-cluster    # TODO: update to cluster name
+  GKE_ZONE: us-east1-b   # TODO: update to cluster zone
+
+jobs:
+
+  login:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USER_NAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build -t buymemain/wishlist_image .
+    - name: Push Docker image
+      run: docker push buymemain/wishlist_image
+  
+  Deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Push to Google cloud
+        uses: ameydev/gke-kubectl-action@master
+        env:
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_CLOUD_SERVICE_KEY }}
+          CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
+          ZONE_NAME: ${{ env.GKE_ZONE }}
+        with:
+          args: apply -f k8s/
+    
