@@ -8,7 +8,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}
   GKE_CLUSTER: buyme-wishlist-cluster    # TODO: update to cluster name
-  GKE_ZONE: us-east1-b   # TODO: update to cluster zone
+  GKE_ZONE: asia-southeast2   # TODO: update to cluster zone
 
 jobs:
 
